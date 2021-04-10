@@ -27,6 +27,7 @@ app.post("/intent", async (req, res) => {
         await quickDraw.import(intent, 1, 64);
       }
     }
+    // https://quickdrawfiles.appspot.com/drawing/car?id={1}&key={key}&format=%22canvas%22
     const set = quickDraw.set(intents.length, intents);
     console.log(set);
     res.json(set);
