@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
   res.send(`[x] API Live - ${Date.now()}`);
 });
 
-app.get("/intent", async (req, res) => {
+app.post("/intent", async (req, res) => {
   try {
     const { intents: rawIntents } = req.body;
     if (!rawIntents || rawIntents.length <= 0) {
