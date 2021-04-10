@@ -1,0 +1,13 @@
+diff --git a/node_modules/quickdraw.js/src/quickdraw.js b/node_modules/quickdraw.js/src/quickdraw.js
+index 0cab1b1..c0bd5ae 100644
+--- a/node_modules/quickdraw.js/src/quickdraw.js
++++ b/node_modules/quickdraw.js/src/quickdraw.js
+@@ -86,7 +86,7 @@ const quickDraw = {
+     var gzip = fs.readFileSync(path.join(__dirname, `./drawings/${category}.ndjson.gz`));
+     var unzipped = zlib.unzipSync(Buffer.from(gzip)).toString();
+ 
+-    var data = unzipped.split('\r\n');
++    var data = unzipped.split('\n');
+     data.pop();
+     data = data.map(x => JSON.parse(x));
+ 
