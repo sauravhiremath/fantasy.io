@@ -1,0 +1,22 @@
+{
+  "name": "fantasy.io-server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "postinstall": "patch-package"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
+    "quickdraw.js": "^1.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
