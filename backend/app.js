@@ -2,6 +2,7 @@ const express = require("express");
 const quickDraw = require("quickdraw.js");
 const categories = require("quickdraw.js/src/categories");
 const axios = require("axios").default;
+const consola = require("consola");
 const cors = require("cors");
 const nlpRouter = require("./nlp");
 const app = express();
@@ -31,10 +32,10 @@ app.post("/intent", async (req, res) => {
     }
     // https://quickdrawfiles.appspot.com/drawing/car?id={1}&key={key}&format=%22canvas%22
     const set = quickDraw.set(intents.length, intents);
-    console.log(set);
+    consola.info(set);
     res.json(set);
   } catch (err) {
-    console.log(err);
+    consola.error(err.message);
     return res.status(500).json({ success: false, message: err.message });
   }
 });
