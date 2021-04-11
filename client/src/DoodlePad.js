@@ -24,7 +24,7 @@ const Visualizer = ({ bars }) => {
 };
 
 function DoodlePad() {
-  const [intents, setIntents] = useState([]);
+  const [query, setQuery] = useState("");
   const [context, setContext] = useState(null);
   const [elements, setElements] = useState([]);
   const [musicId, setMusicId] = useState(false);
@@ -65,9 +65,17 @@ function DoodlePad() {
   //     });
   // }, []);
 
-	useEffect(() => {
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setQuery(transcript);
+      if (transcript.indexOf("music") !== -1) {
+        handleMusicClick();
+      }
+      resetTranscript();
+    }, 2000);
 
-	})
+    return () => clearInterval(timer);
+  }, [transcript, resetTranscript]);
 
   useEffect(() => {
     const canvasEle = canvasBorderRef.current;
@@ -110,15 +118,21 @@ function DoodlePad() {
 
   useEffect(() => {
     (async () => {
-      const data = await fetch("http://localhost:8080/intent", {
-        method: "post",
-        body: intents,
-      });
-      if (data.ok) {
-        setElements((v) => [...v, ...intents.set]);
+      if (query) {
+        const data = await fetch("http://localhost:8080/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ data: query }),
+        });
+        if (data.ok) {
+          const result = await data.json();
+          if (result) {
+            setElements((v) => [...v, result]);
+          }
+        }
       }
     })();
-  }, [intents]);
+  }, [query]);
 
   const handleMusicClick = () => {
     if (!musicInstance.playing(musicId)) {
@@ -135,7 +149,7 @@ function DoodlePad() {
   return (
     <div className="App">
       <canvas id="canvas" ref={canvasBorderRef} />
-      {/* <Playground /> */}
+      <Playground objects={elements} />
 
       <div className="row">
         <div className="column">

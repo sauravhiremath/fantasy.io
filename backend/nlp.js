@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
   try {
     const keyFilename = path.join(__dirname, "./keyfile.json");
     const langClient = new language.LanguageServiceClient({ keyFilename });
-
+    consola.info(body);
     const document = {
       content: body.data,
       type: "PLAIN_TEXT",
@@ -26,6 +26,7 @@ router.post("/", async (req, res) => {
     consola.info(`Token analysis received`);
 
     const { tokens } = result;
+    consola.info(tokens);
     const nounsToAdjectivesMapping = {
       lemmas: [],
       properties: [],
@@ -37,7 +38,7 @@ router.post("/", async (req, res) => {
         if (tag === "NOUN") {
           return categories.includes(lemma);
         }
-        return ["ADP", "ADJ", "NUM"].includes(tag);
+        return ["ADP", "ADJ", "NUM", "ADV"].includes(tag);
       })
       .forEach(({ lemma, partOfSpeech }) => {
         switch (partOfSpeech.tag) {

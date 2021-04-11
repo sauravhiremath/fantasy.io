@@ -1,5 +1,6 @@
 const express = require("express");
 const quickDraw = require("quickdraw.js");
+const bodyParser = require("body-parser");
 const categories = require("quickdraw.js/src/categories");
 const axios = require("axios").default;
 const consola = require("consola");
@@ -9,7 +10,7 @@ const app = express();
 
 app.use(cors());
 app.disable("x-powered-by");
-app.use(express.json());
+app.use(bodyParser.json());
 
 app.use("/analyze", nlpRouter);
 
