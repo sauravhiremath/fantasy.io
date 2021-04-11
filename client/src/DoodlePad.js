@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ReactRough, { Rectangle } from "react-rough";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -12,6 +11,7 @@ import jazz from "./audio/jazz.mp3";
 import lofi from "./audio/lofi.mp3";
 import { useRef } from "react";
 import Playground from "./Playground";
+import { HOST } from "./config";
 
 const MUSIC_ARRAY = [electronic, instrumental, jazz, lofi];
 
@@ -119,7 +119,7 @@ function DoodlePad() {
   useEffect(() => {
     (async () => {
       if (query) {
-        const data = await fetch("http://localhost:8080/analyze", {
+        const data = await fetch(`${HOST}/analyze`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ data: query }),
@@ -153,7 +153,7 @@ function DoodlePad() {
       <div className="row">
         <div className="column">
           <h4>
-            Use <code>W A S D</code> to move character
+            Use <code>W A S D</code> to move objects
           </h4>
           <div className="column" style={{ margin: "auto" }}>
             <div className="row">
