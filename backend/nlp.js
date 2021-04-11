@@ -23,15 +23,14 @@ router.post("/", async (req, res) => {
         extractSyntax: true,
       },
     });
-    consola.info(`Sentiment analysis received`);
-    consola.info(JSON.stringify(result));
+    consola.info(`Token analysis received`);
 
     const { tokens } = result;
     const nounsToAdjectivesMapping = {
       lemmas: [],
       properties: [],
       position: "",
-      count: 0,
+      count: 1,
     };
     tokens
       .filter(({ lemma, partOfSpeech: { tag } }) => {
@@ -63,7 +62,7 @@ router.post("/", async (req, res) => {
     res.status(200).json(nounsToAdjectivesMapping);
   } catch (error) {
     consola.error(error);
-    res.status(500).send("internal error occured");
+    res.status(500).json(error.message);
   }
 });
 
