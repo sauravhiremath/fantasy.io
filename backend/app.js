@@ -3,12 +3,14 @@ const quickDraw = require("quickdraw.js");
 const categories = require("quickdraw.js/src/categories");
 const axios = require("axios").default;
 const cors = require("cors");
-
+const nlpRouter = require("./nlp");
 const app = express();
 
 app.use(cors());
 app.disable("x-powered-by");
 app.use(express.json());
+
+app.use("/analyze", nlpRouter);
 
 app.get("/", (req, res) => {
   res.send(`[x] API Live - ${Date.now()}`);
