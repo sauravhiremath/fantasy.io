@@ -3,8 +3,20 @@ import ReactRough, { Rectangle } from 'react-rough';
 import SpeechRecognition, {
 	useSpeechRecognition,
 } from 'react-speech-recognition';
-import mic from './mic.png';
+import { Howl } from 'howler';
 import 'quickdraw-component/quickdraw-component';
+import mic from './mic.png';
+import electronic from './audio/electronic.mp3';
+import instrumental from './audio/instrumental.mp3';
+import jazz from './audio/jazz.mp3';
+import lofi from './audio/lofi.mp3';
+
+const MUSIC_ARRAY = [electronic, instrumental, jazz, lofi];
+let musicId = 0;
+
+const getRandomMusic = () => {
+	return MUSIC_ARRAY[Math.floor(Math.random() * MUSIC_ARRAY.length)];
+};
 
 const Visualizer = ({ bars }) => {
 	return bars.map((bar, i) => <span id={`${i + 1}`} style={{ height: bar }} />);
@@ -14,8 +26,13 @@ function DoodlePad() {
 	const [intents, setIntents] = useState([]);
 	const [elements, setElements] = useState([]);
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [currentSong, setCurrentSong] = useState(0);
 	const { transcript, listening } = useSpeechRecognition();
 	const [bars, setBars] = useState([]);
+
+	const music = new Howl({
+		src: getRandomMusic(),
+	});
 
 	useEffect(() => {
 		navigator.mediaDevices
@@ -57,8 +74,16 @@ function DoodlePad() {
 	}, [intents]);
 
 	const handleMusicClick = () => {
+		if (!isPlaying) {
+			musicId = music.play();
+		} else {
+			music.stop(musicId);
+		}
+		console.log(isPlaying);
 		setIsPlaying(!isPlaying);
-	}
+		console.log(isPlaying);
+		console.log(musicId);
+	};
 
 	return (
 		<div className="App">
@@ -113,18 +138,24 @@ function DoodlePad() {
 
 			<div className="row">
 				<div className="column">
-					<h4>Controls <code>W A S D</code> to move character</h4>
+					<h4>
+						Use <code>W A S D</code> to move character
+					</h4>
 					<div className="column" style={{ margin: 'auto' }}>
 						<div className="row">
-						<h5 style={{alignSelf: 'center'}}>Music:</h5>
-						<button
-							type="button"
-							className="nes-btn is-primary"
-							style={{ marginBottom: '20px', marginLeft: '10px', paddingTop: '0px' }} 
-							onClick={handleMusicClick}
-						>
-							{ isPlaying ? ('❚❚') : ('▶')}
-						</button>
+							<h5 style={{ alignSelf: 'center' }}>Music:</h5>
+							<button
+								type="button"
+								className="nes-btn is-primary"
+								style={{
+									marginBottom: '20px',
+									marginLeft: '10px',
+									paddingTop: '0px',
+								}}
+								onClick={handleMusicClick}
+							>
+								{isPlaying ? '❚❚' : '▶'}
+							</button>
 						</div>
 						<button type="button" className="nes-btn is-error">
 							Clear Canvas
@@ -164,7 +195,7 @@ function DoodlePad() {
 					)}
 				</div>
 				<div className="column">
-					<h2>Your imagination:</h2>
+					<h3>Your imagination:</h3>
 					<p>{transcript}</p>
 				</div>
 			</div>
