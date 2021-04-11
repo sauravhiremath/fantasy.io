@@ -150,7 +150,6 @@ function DoodlePad() {
     <div className="App">
       <canvas id="canvas" ref={canvasBorderRef} />
       <Playground objects={elements} />
-
       <div className="row">
         <div className="column">
           <h4>
