@@ -34,9 +34,12 @@ router.post("/", async (req, res) => {
       count: 0,
     };
     tokens
-      .filter(({ partOfSpeech: { tag } }) =>
-        ["NOUN", "ADP", "ADJ", "NUM"].includes(tag)
-      )
+      .filter(({ lemma, partOfSpeech: { tag } }) => {
+        if (tag === "NOUN") {
+          return categories.includes(lemma);
+        }
+        return ["ADP", "ADJ", "NUM"].includes(tag);
+      })
       .forEach(({ lemma, partOfSpeech }) => {
         switch (partOfSpeech.tag) {
           case "ADJ":
