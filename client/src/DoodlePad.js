@@ -13,6 +13,7 @@ const Visualizer = ({ bars }) => {
 function DoodlePad() {
 	const [intents, setIntents] = useState([]);
 	const [elements, setElements] = useState([]);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const { transcript, listening } = useSpeechRecognition();
 	const [bars, setBars] = useState([]);
 
@@ -55,6 +56,10 @@ function DoodlePad() {
 		})();
 	}, [intents]);
 
+	const handleMusicClick = () => {
+		setIsPlaying(!isPlaying);
+	}
+
 	return (
 		<div className="App">
 			<ReactRough
@@ -66,7 +71,7 @@ function DoodlePad() {
 					x={15}
 					y={15}
 					width={window.innerWidth - 50}
-					height={window.innerHeight - 400}
+					height={window.innerHeight - 350}
 					bowing={2}
 					disableMultiStroke
 					strokeWidth={5}
@@ -108,12 +113,23 @@ function DoodlePad() {
 
 			<div className="row">
 				<div className="column">
-					<h2>equalizer</h2>
-					{listening && (
-						<div className="voice-coder">
-							<Visualizer bars={bars} />
+					<h4>Controls <code>W A S D</code> to move character</h4>
+					<div className="column" style={{ margin: 'auto' }}>
+						<div className="row">
+						<h5 style={{alignSelf: 'center'}}>Music:</h5>
+						<button
+							type="button"
+							className="nes-btn is-primary"
+							style={{ marginBottom: '20px', marginLeft: '10px', paddingTop: '0px' }} 
+							onClick={handleMusicClick}
+						>
+							{ isPlaying ? ('❚❚') : ('▶')}
+						</button>
 						</div>
-					)}
+						<button type="button" className="nes-btn is-error">
+							Clear Canvas
+						</button>
+					</div>
 				</div>
 				<div className="column-center">
 					<div className="voice-button">
@@ -141,17 +157,15 @@ function DoodlePad() {
 							/>
 						</button>
 					</div>
+					{listening && (
+						<div className="voice-coder">
+							<Visualizer bars={bars} />
+						</div>
+					)}
 				</div>
 				<div className="column">
 					<h2>Your imagination:</h2>
 					<p>{transcript}</p>
-				</div>
-			</div>
-			<div className="row">
-				<div className="column">
-					<button type="button" className="nes-btn is-error">
-						Clear Canvas
-					</button>
 				</div>
 			</div>
 		</div>
