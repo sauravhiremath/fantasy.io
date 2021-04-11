@@ -12,6 +12,7 @@ import jazz from "./audio/jazz.mp3";
 import lofi from "./audio/lofi.mp3";
 import { useRef } from "react";
 import Playground from "./Playground";
+import Canvas from './Canvas';
 
 const MUSIC_ARRAY = [electronic, instrumental, jazz, lofi];
 
@@ -64,10 +65,6 @@ function DoodlePad() {
   //       }
   //     });
   // }, []);
-
-	useEffect(() => {
-
-	})
 
   useEffect(() => {
     const canvasEle = canvasBorderRef.current;
@@ -135,6 +132,7 @@ function DoodlePad() {
   return (
     <div className="App">
       <canvas id="canvas" ref={canvasBorderRef} />
+      <Canvas />
       {/* <Playground /> */}
 
       <div className="row">
