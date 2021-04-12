@@ -152,9 +152,6 @@ function DoodlePad() {
       <Playground objects={elements} />
       <div className="row">
         <div className="column">
-          <h4>
-            Use <code>W A S D</code> to move objects
-          </h4>
           <div className="column" style={{ margin: "auto" }}>
             <div className="row">
               <h5 style={{ alignSelf: "center" }}>Music:</h5>
